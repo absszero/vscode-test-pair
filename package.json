@@ -1,6 +1,6 @@
 {
 	"name": "test-pair",
-	"displayName": "Test Pair",
+	"displayName": "TestPair",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -10,14 +10,48 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:test-pair.helloWorld"
+		"onCommand:extension.test-pair"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "test-pair.helloWorld",
-				"title": "Hello World"
+				"command": "extension.test-pair",
+				"title": "Pair Source/Test"
+			}
+		],
+		"configuration": [
+			{
+				"title": "TestPair",
+				"properties": {
+					"testPair.testFileExtensions": {
+						"description": "Specifies test file extensions",
+						"scope": "window",
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"extension": {
+									"type": "string",
+									"description": "file extension"
+								},
+								"globs": {
+									"type": "array",
+									"description": "test file glob patterns, @@ as source filename",
+									"items": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"default": [
+							{
+								"extension": "php",
+								"globs": ["**/@@*Test.php"]
+							}
+						]
+					}
+				}
 			}
 		]
 	},
