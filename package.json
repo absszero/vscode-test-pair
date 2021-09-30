@@ -37,7 +37,7 @@
 								},
 								"globs": {
 									"type": "array",
-									"description": "test file glob patterns, @@ as source filename",
+									"description": "the glob patterns for test filenames, @@ as source filename",
 									"items": {
 										"type": "string"
 									}
@@ -47,7 +47,59 @@
 						"default": [
 							{
 								"extension": "php",
-								"globs": ["**/@@*Test.php"]
+								"globs": ["@@Test.php"]
+							},
+							{
+								"extension": "cc",
+								"globs": ["@@_unittest.cc"]
+							},
+							{
+								"extension": "py",
+								"globs": ["test_@@.py"]
+							},
+							{
+								"extension": "java",
+								"globs": ["@@Test.java"]
+							},
+							{
+								"extension": "groovy",
+								"globs": ["@@Test.groovy"]
+							},
+							{
+								"extension": "js",
+								"globs": ["@@.{spec,test}.{ts,js}"]
+							},
+							{
+								"extension": "ts",
+								"globs": ["@@.{spec,test}.{ts,js}"]
+							},
+							{
+								"extension": "vue",
+								"globs": ["@@.{spec,test}.{ts,js}"]
+							},
+							{
+								"extension": "jsx",
+								"globs": ["@@.{spec,test}.{ts,js}"]
+							},
+							{
+								"extension": "rb",
+								"globs": ["@@{_spec,_test}.rb"]
+							},
+							{
+								"extension": "go",
+								"globs": ["@@_test.go"]
+							},
+							{
+								"extension": "swift",
+								"globs": ["@@Tests.swift"]
+							},
+							{
+								"extension": "m",
+								"globs": ["@@Test.m"]
+							},
+							{
+								"extension": "r",
+								"globs": ["test_@@.r"]
 							}
 						]
 					}
