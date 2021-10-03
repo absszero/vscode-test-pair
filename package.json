@@ -47,59 +47,87 @@
 						"default": [
 							{
 								"extension": "php",
-								"globs": ["@@Test.php"]
+								"globs": [
+									"@@Test.php"
+								]
 							},
 							{
 								"extension": "cc",
-								"globs": ["@@_unittest.cc"]
+								"globs": [
+									"@@_unittest.cc"
+								]
 							},
 							{
 								"extension": "py",
-								"globs": ["test_@@.py"]
+								"globs": [
+									"test_@@.py"
+								]
 							},
 							{
 								"extension": "java",
-								"globs": ["@@Test.java"]
+								"globs": [
+									"@@Test.java"
+								]
 							},
 							{
 								"extension": "groovy",
-								"globs": ["@@Test.groovy"]
+								"globs": [
+									"@@Test.groovy"
+								]
 							},
 							{
 								"extension": "js",
-								"globs": ["@@.{spec,test}.{ts,js}"]
+								"globs": [
+									"@@.{spec,test}.{ts,js}"
+								]
 							},
 							{
 								"extension": "ts",
-								"globs": ["@@.{spec,test}.{ts,js}"]
+								"globs": [
+									"@@.{spec,test}.ts"
+								]
 							},
 							{
 								"extension": "vue",
-								"globs": ["@@.{spec,test}.{ts,js}"]
+								"globs": [
+									"@@.{spec,test}.{ts,js}"
+								]
 							},
 							{
 								"extension": "jsx",
-								"globs": ["@@.{spec,test}.{ts,js}"]
+								"globs": [
+									"@@.{spec,test}.{ts,js}"
+								]
 							},
 							{
 								"extension": "rb",
-								"globs": ["@@{_spec,_test}.rb"]
+								"globs": [
+									"@@{_spec,_test}.rb"
+								]
 							},
 							{
 								"extension": "go",
-								"globs": ["@@_test.go"]
+								"globs": [
+									"@@_test.go"
+								]
 							},
 							{
 								"extension": "swift",
-								"globs": ["@@Tests.swift"]
+								"globs": [
+									"@@Tests.swift"
+								]
 							},
 							{
 								"extension": "m",
-								"globs": ["@@Test.m"]
+								"globs": [
+									"@@Test.m"
+								]
 							},
 							{
 								"extension": "r",
-								"globs": ["test_@@.r"]
+								"globs": [
+									"test_@@.r"
+								]
 							}
 						]
 					}
@@ -127,5 +155,8 @@
 		"mocha": "^8.4.0",
 		"typescript": "^4.3.2",
 		"vscode-test": "^1.5.2"
+	},
+	"dependencies": {
+		"minimatch": "^3.0.4"
 	}
 }

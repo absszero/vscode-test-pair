@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { basename } from 'path';
+const minimatch = require("minimatch");
 
 const FILENAME_PLACEHOLDER = '@@';
 
@@ -17,11 +18,45 @@ extensions = extensions.map(ext => {
 export function filenameComponent(path: string) {
     const filename: string = basename(path);
     const splitFilename: string[] = filename.split(".");
-    const base: string = splitFilename.slice(0,-1).join('');
+    const base: string = splitFilename.slice(0,-1).join('.');
     const extension: string = splitFilename[splitFilename.length-1].toLowerCase();
 
     return {filename, base, extension};
 }
+
+export function spreadGlobs(globs: Array<string>) : Array<string> {
+    let idx = 0;
+    while(undefined !== globs[idx]) {
+        const glob = globs[idx];
+
+        let start = glob.indexOf('{');
+        if (-1 === start) {
+            idx++;
+            continue;
+        }
+        let end = glob.indexOf('}');
+        if (-1 === end || end <= start) {
+            idx++;
+            continue;
+        }
+
+        let replacedPart = glob.substring(start, end + 1);
+        let parts = replacedPart.substring(1, replacedPart.length - 1).split(',');
+        if (0 === parts.length) {
+            idx++;
+            continue;
+        }
+        for (const part of parts) {
+            let newGlob = glob.replace(replacedPart, part);
+            globs.push(newGlob);
+        }
+        globs[idx] = '';
+        idx++;
+    }
+
+    return globs.filter(n => n);
+}
+
 
 export function activate(context: vscode.ExtensionContext) {
     let disposable = vscode.commands.registerTextEditorCommand('extension.test-pair',
@@ -42,10 +77,10 @@ export function activate(context: vscode.ExtensionContext) {
 
         let found = false;
         for (let glob of globs) {
-            const filter = glob.split(FILENAME_PLACEHOLDER).filter(n => n);
-            const isTestFile = filter.some(part => -1 !== fc.filename.indexOf(part));
+            const isTestFile = minimatch(fc.filename, glob.replace(FILENAME_PLACEHOLDER, '*'));
 
             if (isTestFile) {
+                const filter = spreadGlobs(glob.split(FILENAME_PLACEHOLDER));
                 glob = fc.filename;
                 for (const part of filter) {
                     glob = glob.split(part).join('');
