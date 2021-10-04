@@ -4,11 +4,21 @@ const minimatch = require("minimatch");
 
 const FILENAME_PLACEHOLDER = '@@';
 
-let extensions : Array<any> = vscode.workspace.getConfiguration().get('testPair.testFileExtensions', []);
-extensions = extensions.map(ext => {
-    ext.extension = ext.extension.toLowerCase();
-    return ext;
-});
+let extensions = initExtensionGlobs();
+
+/**
+ * init defaultextension globs
+ * @returns
+ */
+function initExtensionGlobs() : Array<any> {
+    let extensions : Array<any> = vscode.workspace.getConfiguration().get('testPair.testFileExtensions', []);
+    extensions = extensions.map(ext => {
+        ext.extension = ext.extension.toLowerCase();
+        return ext;
+    });
+
+    return extensions;
+}
 
 /**
  * get filename component
@@ -24,7 +34,12 @@ export function filenameComponent(path: string) {
     return {filename, base, extension};
 }
 
-export function spreadGlobs(globs: Array<string>) : Array<string> {
+/**
+ * spread the glob patterns
+ * @param globs
+ * @returns
+ */
+function spreadGlobs(globs: Array<string>) : Array<string> {
     let idx = 0;
     while(undefined !== globs[idx]) {
         const glob = globs[idx];
@@ -57,6 +72,34 @@ export function spreadGlobs(globs: Array<string>) : Array<string> {
     return globs.filter(n => n);
 }
 
+/**
+ * get pair glob
+ * @param globs
+ * @param fc
+ * @returns
+ */
+export function getPairGlob(globs: Array<string>, fc: any) : string {
+
+    for (let glob of globs) {
+        const isTestFile = minimatch(fc.filename, glob.replace(FILENAME_PLACEHOLDER, '*'));
+
+        if (isTestFile) {
+            const filter = spreadGlobs(glob.split(FILENAME_PLACEHOLDER));
+            glob = fc.filename;
+            for (const part of filter) {
+                glob = glob.split(part).join('');
+            }
+            glob += '.' + fc.extension;
+        } else {
+            glob = glob.replace(FILENAME_PLACEHOLDER, fc.base);
+        }
+
+        glob = '**/' + glob;
+        return glob;
+    }
+
+    return "";
+}
 
 export function activate(context: vscode.ExtensionContext) {
     let disposable = vscode.commands.registerTextEditorCommand('extension.test-pair',
@@ -75,45 +118,22 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        let found = false;
-        for (let glob of globs) {
-            const isTestFile = minimatch(fc.filename, glob.replace(FILENAME_PLACEHOLDER, '*'));
-
-            if (isTestFile) {
-                const filter = spreadGlobs(glob.split(FILENAME_PLACEHOLDER));
-                glob = fc.filename;
-                for (const part of filter) {
-                    glob = glob.split(part).join('');
-                }
-                glob += '.' + fc.extension;
-            } else {
-                glob = glob.replace(FILENAME_PLACEHOLDER, fc.base);
-            }
-
-            glob = '**/' + glob;
-
-            let uris = await vscode.workspace.findFiles(glob);
-            if (0 === uris.length) {
-                continue;
-            }
-            if (1 === uris.length) {
-                vscode.commands.executeCommand('vscode.open', vscode.Uri.file(uris[0].path));
-                found = true;
-                break;
-            }
-
-            uris.sort(function (a, b) {
-                return basename(a.path).length - basename(b.path).length;
-            });
-
-            vscode.commands.executeCommand('workbench.action.quickOpen', basename(uris[0].path));
-            found = true;
-            break;
-        }
-
-        if (!found) {
+        const glob = getPairGlob(globs, fc);
+        let uris = await vscode.workspace.findFiles(glob);
+        if (0 === uris.length) {
             vscode.window.showWarningMessage('TestPair: Unable to find the pair file');
         }
+
+        if (1 === uris.length) {
+            vscode.commands.executeCommand('vscode.open', vscode.Uri.file(uris[0].path));
+            return;
+        }
+
+        uris.sort(function (a, b) {
+            return basename(a.path).length - basename(b.path).length;
+        });
+
+        vscode.commands.executeCommand('workbench.action.quickOpen', basename(uris[0].path));
     });
 
     context.subscriptions.push(disposable);
