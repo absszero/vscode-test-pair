@@ -52,12 +52,6 @@
 								]
 							},
 							{
-								"extension": "cc",
-								"globs": [
-									"@@_unittest.cc"
-								]
-							},
-							{
 								"extension": "py",
 								"globs": [
 									"test_@@.py"
@@ -70,9 +64,16 @@
 								]
 							},
 							{
+								"extension": "kt",
+								"globs": [
+									"@@Test.kt"
+								]
+							},
+							{
 								"extension": "groovy",
 								"globs": [
-									"@@Test.groovy"
+									"@@Test.groovy",
+									"@@Spec.groovy"
 								]
 							},
 							{
@@ -90,13 +91,13 @@
 							{
 								"extension": "vue",
 								"globs": [
-									"@@.{spec,test}.{ts,js}"
+									"@@.{spec,test}"
 								]
 							},
 							{
 								"extension": "jsx",
 								"globs": [
-									"@@.{spec,test}.{ts,js}"
+									"@@.{spec,test}.*"
 								]
 							},
 							{

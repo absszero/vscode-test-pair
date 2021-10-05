@@ -94,7 +94,6 @@ export function getPairGlob(globs: Array<string>, fc: any) : string {
             glob = glob.replace(FILENAME_PLACEHOLDER, fc.base);
         }
 
-        glob = '**/' + glob;
         return glob;
     }
 
@@ -118,7 +117,7 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        const glob = getPairGlob(globs, fc);
+        const glob = '**/' + getPairGlob(globs, fc);
         let uris = await vscode.workspace.findFiles(glob);
         if (0 === uris.length) {
             vscode.window.showWarningMessage('TestPair: Unable to find the pair file');
