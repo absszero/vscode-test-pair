@@ -33,102 +33,92 @@
 							"properties": {
 								"extension": {
 									"type": "string",
-									"description": "file extension"
+									"description": "the file extension"
 								},
-								"globs": {
-									"type": "array",
-									"description": "the glob patterns for test filenames, @@ as source filename",
-									"items": {
-										"type": "string"
-									}
+								"testGlob": {
+									"type": "string",
+									"description": "the glob pattern for test filenames, @@ as source filename"
+								},
+								"sourceGlob": {
+									"type": "string",
+									"description": "the glob pattern for source filenames, @@ as source filename"
+								},
+								"sourceExt": {
+									"type": "string",
+									"description": "the glob pattern for source file extensions. default: the current file extension"
 								}
 							}
 						},
 						"default": [
 							{
 								"extension": "php",
-								"globs": [
-									"@@Test.php"
-								]
+								"testGlob": "@@Test.php",
+								"sourceGlob": "@@{Test}"
 							},
 							{
 								"extension": "py",
-								"globs": [
-									"test_@@.py"
-								]
+								"testGlob": "test_@@.py",
+								"sourceGlob": "{test_}@@"
 							},
 							{
 								"extension": "java",
-								"globs": [
-									"@@Test.java"
-								]
+								"testGlob": "@@Test.java",
+								"sourceGlob": "@@{Test}"
 							},
 							{
 								"extension": "kt",
-								"globs": [
-									"@@Test.kt"
-								]
+								"testGlob": "@@Test.kt",
+								"sourceGlob": "@@{Test}"
 							},
 							{
 								"extension": "groovy",
-								"globs": [
-									"@@Test.groovy",
-									"@@Spec.groovy"
-								]
+								"testGlob": "@@{Test,Spec}.groovy",
+								"sourceGlob": "@@{Test,Spec}"
 							},
 							{
 								"extension": "js",
-								"globs": [
-									"@@.{spec,test}.{ts,js}"
-								]
+								"testGlob": "@@{.spec,.test}.{ts,js}",
+								"sourceGlob": "@@{.spec,.test}",
+								"sourceExt": "{js,vue,jsx}"
 							},
 							{
 								"extension": "ts",
-								"globs": [
-									"@@.{spec,test}.ts"
-								]
+								"testGlob": "@@{.spec,.test}.ts",
+								"sourceGlob": "@@{.spec,.test}",
+								"sourceExt": "{ts,vue,jsx}"
 							},
 							{
 								"extension": "vue",
-								"globs": [
-									"@@.{spec,test}"
-								]
+								"testGlob": "@@{.spec,.test}.{ts,js}"
 							},
 							{
 								"extension": "jsx",
-								"globs": [
-									"@@.{spec,test}.*"
-								]
+								"testGlob": "@@{.spec,.test}.{ts,js}"
 							},
 							{
 								"extension": "rb",
-								"globs": [
-									"@@{_spec,_test}.rb"
-								]
+								"testGlob": "@@{_spec,_test}.rb",
+								"sourceGlob": "@@{_spec,_test}"
 							},
 							{
 								"extension": "go",
-								"globs": [
-									"@@_test.go"
-								]
+								"testGlob": "@@_test.go",
+								"sourceGlob": "@@{_test}"
 							},
 							{
 								"extension": "swift",
-								"globs": [
-									"@@Tests.swift"
-								]
+								"testGlob": "@@Tests.swift",
+								"sourceGlob": "@@{Tests}"
 							},
 							{
 								"extension": "m",
-								"globs": [
-									"@@Test.m"
-								]
+								"testGlob": "@@Test.m",
+								"sourceGlob": "@@{Test}"
 							},
 							{
 								"extension": "r",
-								"globs": [
-									"test_@@.r"
-								]
+								"testGlob": "test_@@.r",
+								"sourceGlob": "{test_}@@"
 							}
 						]
 					}

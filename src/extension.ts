@@ -10,7 +10,7 @@ let extensions = initExtensionGlobs();
  * init defaultextension globs
  * @returns
  */
-function initExtensionGlobs() : Array<any> {
+export function initExtensionGlobs() : Array<any> {
     let extensions : Array<any> = vscode.workspace.getConfiguration().get('testPair.testFileExtensions', []);
     extensions = extensions.map(ext => {
         ext.extension = ext.extension.toLowerCase();
@@ -74,51 +74,53 @@ function spreadGlobs(globs: Array<string>) : Array<string> {
 
 /**
  * get pair glob
- * @param globs
+ * @param extGlobs
  * @param fc
  * @returns
  */
-export function getPairGlob(globs: Array<string>, fc: any) : string {
-
-    for (let glob of globs) {
-        const isTestFile = minimatch(fc.filename, glob.replace(FILENAME_PLACEHOLDER, '*'));
-
-        if (isTestFile) {
-            const filter = spreadGlobs(glob.split(FILENAME_PLACEHOLDER));
-            glob = fc.filename;
-            for (const part of filter) {
-                glob = glob.split(part).join('');
-            }
-            glob += '.' + fc.extension;
-        } else {
-            glob = glob.replace(FILENAME_PLACEHOLDER, fc.base);
+export function getPairGlob(extGlobs: any, fc: any) : string {
+    const isTestFile = minimatch(fc.filename, extGlobs.testGlob.replace(FILENAME_PLACEHOLDER, '*'));
+    let glob = extGlobs.testGlob.replace(FILENAME_PLACEHOLDER, fc.base);;
+    if (isTestFile) {
+        if (!extGlobs.sourceGlob) {
+            return '';
         }
-
-        return glob;
+        const filter = spreadGlobs(extGlobs.sourceGlob.split(FILENAME_PLACEHOLDER));
+        glob = fc.base;
+        for (const part of filter) {
+            glob = glob.split(part).join('');
+        }
+        let sourceExt = extGlobs.sourceExt ?? extGlobs.extension;
+        glob += '.' + sourceExt;
     }
 
-    return "";
+    return glob;
 }
 
 export function activate(context: vscode.ExtensionContext) {
     let disposable = vscode.commands.registerTextEditorCommand('extension.test-pair',
     async (editor: vscode.TextEditor, edit: vscode.TextEditorEdit, args: any[]) => {
         const fc = filenameComponent(editor.document.fileName);
-        let globs: Array<string> = [];
+        let extensionGlobs = {};
         for (let i = 0; i < extensions.length; i++) {
             if (extensions[i]['extension'] === fc.extension) {
-                globs = extensions[i].globs;
+                extensionGlobs = extensions[i];
                 break;
             }
         }
 
-        if (0 === globs.length) {
+        if (0 === Object.keys(extensionGlobs).length) {
             vscode.window.showWarningMessage('TestPair: Unable to match the file extension');
             return;
         }
 
-        const glob = '**/' + getPairGlob(globs, fc);
-        let uris = await vscode.workspace.findFiles(glob);
+        const glob = getPairGlob(extensionGlobs, fc);
+        if (!glob) {
+            vscode.window.showWarningMessage('TestPair: Unable to find the pair glob pattern');
+            return;
+        }
+
+        let uris = await vscode.workspace.findFiles('**/' + glob);
         if (0 === uris.length) {
             vscode.window.showWarningMessage('TestPair: Unable to find the pair file');
         }
