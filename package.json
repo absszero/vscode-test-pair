@@ -17,7 +17,14 @@
 		"commands": [
 			{
 				"command": "extension.test-pair",
-				"title": "Pair Source/Test"
+				"title": "TestPair: Pair the Source/Test file"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "extension.test-pair",
+				"key": "shift+ctrl+p",
+				"when": "editorTextFocus"
 			}
 		],
 		"configuration": [
@@ -33,19 +40,19 @@
 							"properties": {
 								"extension": {
 									"type": "string",
-									"description": "the file extension"
+									"description": "the file extension."
 								},
 								"testGlob": {
 									"type": "string",
-									"description": "the glob pattern for test filenames, @@ as source filename"
+									"description": "the glob pattern for test filenames, @@ as source filename."
 								},
 								"sourceGlob": {
 									"type": "string",
-									"description": "the glob pattern for source filenames, @@ as source filename"
+									"description": "the glob pattern for source filenames, @@ as source filename."
 								},
 								"sourceExt": {
 									"type": "string",
-									"description": "the glob pattern for source file extensions. default: the current file extension"
+									"description": "the glob pattern for source file extensions. if ignore it, the default is current file extension."
 								}
 							}
 						},
