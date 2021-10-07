@@ -37,7 +37,7 @@ Pair your source/test files from test/source files.
 
 ## Define your pair
 
-```json
+```js
 {
   "testPair.testFileExtensions": [
     {
