@@ -18,8 +18,8 @@ Pair your source/test files from test/source files.
     - `Groovy` Foo.groovy <=> FooTest.groovy, FooSpec.groovy
     - `JavaScript` foo.js <=> foo.test.js, foo.spec.js, foo.test.ts, foo.spec.ts 
     - `TypeScript` foo.ts <=> foo.test.ts, foo.spec.ts
-    - `Vue.js` foo.vue  <=> foo.test.ts, foo.spec.ts
-    - `React` foo.jsx  <=> foo.test.ts, foo.spec.ts
+    - `Vue.js` foo.vue  <=> foo.test.js, foo.spec.js, foo.test.ts, foo.spec.ts
+    - `React` foo.jsx  <=> foo.test.js, foo.spec.js, foo.test.ts, foo.spec.ts
     - `Ruby` foo.rb  <=> foo_test.rb, foo_spec.rb
     - `Go` foo.go  <=> foo_test.go
     - `Swift` Foo.swift  <=> FooTests.swift
@@ -41,7 +41,7 @@ Pair your source/test files from test/source files.
 {
   "testPair.testFileExtensions": [
     {
-      // the file extension
+      // the file extension.
       "extension": "js", 
       
       // the glob pattern for test filenames, @@ as source filename.
