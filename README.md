@@ -1,70 +1,63 @@
-# test-pair README
+# TestPair
 
-This is the README for your extension "test-pair". After writing up a brief description, we recommend including the following sections.
+![.github/workflows/test.yaml](https://github.com/absszero/vscode-test-pair/workflows/.github/workflows/test.yaml/badge.svg) 
+
+Pair your source/test files from test/source files.
+
+
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Switch to test files from source files.
+- Switch to source files from test files.
+- Default supported file extensions:
+    - `PHP` Foo.php <=> FooTest.hpp
+    - `Python` foo.py <=> test_foo.py
+    - `Java` Foo.java <=> FooTest.java
+    - `Kotlin` Foo.kt <=> FooTest.kt
+    - `Groovy` Foo.groovy <=> FooTest.groovy, FooSpec.groovy
+    - `JavaScript` foo.js <=> foo.test.js, foo.spec.js, foo.test.ts, foo.spec.ts 
+    - `TypeScript` foo.ts <=> foo.test.ts, foo.spec.ts
+    - `Vue.js` foo.vue  <=> foo.test.js, foo.spec.js, foo.test.ts, foo.spec.ts
+    - `React` foo.jsx  <=> foo.test.js, foo.spec.js, foo.test.ts, foo.spec.ts
+    - `Ruby` foo.rb  <=> foo_test.rb, foo_spec.rb
+    - `Go` foo.go  <=> foo_test.go
+    - `Swift` Foo.swift  <=> FooTests.swift
+    - `Matlab` Foo.m  <=> FooTest.m
+    - `R` foo.r  <=> test_foo.r
 
-For example if there is an image subfolder under your extension project workspace:
 
-\!\[feature X\]\(images/feature-x.png\)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Usage
 
-## Requirements
+- `View` > `Command Palette`, Choose `TestPair: Pair the Source/Test file`.
+- Or `Ctrl` + `Shift` + `P`
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
 
-## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Define your pair
 
-For example:
+```js
+{
+  "testPair.testFileExtensions": [
+    {
+      // the file extension.
+      "extension": "js", 
+      
+      // the glob pattern for test filenames, @@ as source filename.
+      // it will match filenames end with @@.spec.js or @@.test.js.
+      "testGlob": "@@{.spec,.test}.js",
 
-This extension contributes the following settings:
+      // the glob pattern for source filenames, @@ as source filename.
+      // it will remove the test filename parts end with .spec.js or .test.js.
+      "sourceGlob": "@@{.spec,.test}",
+      
+      // the glob pattern for source file extensions.
+      // if ignore it, the default is current file extension.
+      // it will match filename with the extension @@.js, @@.vue, @@.jsx
+      "sourceExt": "{js,vue,jsx}"
+    }
+  ]
+}
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+```

@@ -1,6 +1,6 @@
 {
 	"name": "test-pair",
-	"displayName": "Test Pair",
+	"displayName": "TestPair",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -10,14 +10,126 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:test-pair.helloWorld"
+		"onCommand:extension.test-pair"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "test-pair.helloWorld",
-				"title": "Hello World"
+				"command": "extension.test-pair",
+				"title": "TestPair: Pair the Source/Test file"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "extension.test-pair",
+				"key": "shift+ctrl+p",
+				"when": "editorTextFocus"
+			}
+		],
+		"configuration": [
+			{
+				"title": "TestPair",
+				"properties": {
+					"testPair.testFileExtensions": {
+						"description": "Specifies test file extensions",
+						"scope": "window",
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"extension": {
+									"type": "string",
+									"description": "the file extension."
+								},
+								"testGlob": {
+									"type": "string",
+									"description": "the glob pattern for test filenames, @@ as source filename."
+								},
+								"sourceGlob": {
+									"type": "string",
+									"description": "the glob pattern for source filenames, @@ as source filename."
+								},
+								"sourceExt": {
+									"type": "string",
+									"description": "the glob pattern for source file extensions. if ignore it, the default is current file extension."
+								}
+							}
+						},
+						"default": [
+							{
+								"extension": "php",
+								"testGlob": "@@Test.php",
+								"sourceGlob": "@@{Test}"
+							},
+							{
+								"extension": "py",
+								"testGlob": "test_@@.py",
+								"sourceGlob": "{test_}@@"
+							},
+							{
+								"extension": "java",
+								"testGlob": "@@Test.java",
+								"sourceGlob": "@@{Test}"
+							},
+							{
+								"extension": "kt",
+								"testGlob": "@@Test.kt",
+								"sourceGlob": "@@{Test}"
+							},
+							{
+								"extension": "groovy",
+								"testGlob": "@@{Test,Spec}.groovy",
+								"sourceGlob": "@@{Test,Spec}"
+							},
+							{
+								"extension": "js",
+								"testGlob": "@@{.spec,.test}.{ts,js}",
+								"sourceGlob": "@@{.spec,.test}",
+								"sourceExt": "{js,vue,jsx}"
+							},
+							{
+								"extension": "ts",
+								"testGlob": "@@{.spec,.test}.ts",
+								"sourceGlob": "@@{.spec,.test}",
+								"sourceExt": "{ts,vue,jsx}"
+							},
+							{
+								"extension": "vue",
+								"testGlob": "@@{.spec,.test}.{ts,js}"
+							},
+							{
+								"extension": "jsx",
+								"testGlob": "@@{.spec,.test}.{ts,js}"
+							},
+							{
+								"extension": "rb",
+								"testGlob": "@@{_spec,_test}.rb",
+								"sourceGlob": "@@{_spec,_test}"
+							},
+							{
+								"extension": "go",
+								"testGlob": "@@_test.go",
+								"sourceGlob": "@@{_test}"
+							},
+							{
+								"extension": "swift",
+								"testGlob": "@@Tests.swift",
+								"sourceGlob": "@@{Tests}"
+							},
+							{
+								"extension": "m",
+								"testGlob": "@@Test.m",
+								"sourceGlob": "@@{Test}"
+							},
+							{
+								"extension": "r",
+								"testGlob": "test_@@.r",
+								"sourceGlob": "{test_}@@"
+							}
+						]
+					}
+				}
 			}
 		]
 	},
@@ -41,5 +153,8 @@
 		"mocha": "^8.4.0",
 		"typescript": "^4.3.2",
 		"vscode-test": "^1.5.2"
+	},
+	"dependencies": {
+		"minimatch": "^3.0.4"
 	}
 }
