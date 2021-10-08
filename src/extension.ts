@@ -3,15 +3,14 @@ import { basename } from 'path';
 const minimatch = require("minimatch");
 
 const FILENAME_PLACEHOLDER = '@@';
-
-let extensions = initExtensionGlobs();
+const MAX_RESULTS = 3;
 
 /**
  * init defaultextension globs
  * @returns
  */
 export function initExtensionGlobs() : Array<any> {
-    let extensions : Array<any> = vscode.workspace.getConfiguration().get('testPair.testFileExtensions', []);
+    let extensions : Array<any> = vscode.workspace.getConfiguration().get('testPair.fileExtensions', []);
     extensions = extensions.map(ext => {
         ext.extension = ext.extension.toLowerCase();
         return ext;
@@ -98,6 +97,9 @@ export function getPairGlob(extGlobs: any, fc: any) : string {
 }
 
 export function activate(context: vscode.ExtensionContext) {
+    const extensions = initExtensionGlobs();
+    const excludes = vscode.workspace.getConfiguration().get('testPair.exclusion', null);
+
     let disposable = vscode.commands.registerTextEditorCommand('extension.test-pair',
     async (editor: vscode.TextEditor, edit: vscode.TextEditorEdit, args: any[]) => {
         const fc = filenameComponent(editor.document.fileName);
@@ -120,7 +122,7 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        let uris = await vscode.workspace.findFiles('**/' + glob);
+        let uris = await vscode.workspace.findFiles('**/' + glob, excludes, MAX_RESULTS);
         if (0 === uris.length) {
             vscode.window.showWarningMessage('TestPair: Unable to find the pair file');
         }

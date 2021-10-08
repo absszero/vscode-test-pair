@@ -31,7 +31,13 @@
 			{
 				"title": "TestPair",
 				"properties": {
-					"testPair.testFileExtensions": {
+					"testPair.exclusion": {
+						"description": "the glob pattern to exclude pair files.",
+						"scope": "window",
+						"type": "string",
+						"default": "**/{node_modules,vendor}/"
+					},
+					"testPair.fileExtensions": {
 						"description": "Specifies test file extensions",
 						"scope": "window",
 						"type": "array",
