@@ -5,139 +5,140 @@ const minimatch = require("minimatch");
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-import { getPairGlob, filenameComponent, initExtensionGlobs } from '../../extension';
+import { getPairGlob, filenameComponent, initRules } from '../../extension';
+import { Rule } from '../../Rule';
 
 let editor : vscode.TextEditor;
 suite('Extension Test Suite', () => {
-	let extensions : any = {};
+	let rules : any = {};
 	before(async () => {
-		for (const ext of initExtensionGlobs()) {
-			extensions[ext.extension] = ext;
+		for (const rule of initRules()) {
+			rules[rule.extension] = rule;
 		}
 
 		vscode.window.showInformationMessage('Start all tests.');
 	});
 
-	function assertPaired(extGlobs: any, expection: string, filename: string) {
+	function assertPaired(rule: Rule, expection: string, filename: string) {
 		let fc = filenameComponent(filename);
-		let globPatten = getPairGlob(extGlobs, fc);
+		let globPatten = getPairGlob(rule, fc);
 		assert.strictEqual(true, minimatch(expection, globPatten));
 	}
 
 	test('php test', () => {
-		let extGlobs = extensions.php;
+		let rule = rules.php;
 
-		assertPaired(extGlobs, 'Foo.php', 'FooTest.php');
-		assertPaired(extGlobs, 'FooTest.php', 'Foo.php');
+		assertPaired(rule, 'Foo.php', 'FooTest.php');
+		assertPaired(rule, 'FooTest.php', 'Foo.php');
 	});
 
 	test('python test', () => {
-		let extGlobs = extensions.py;
+		let rule = rules.py;
 
-		assertPaired(extGlobs, 'foo.py', 'test_foo.py');
+		assertPaired(rule, 'foo.py', 'test_foo.py');
 	});
 
 	test('java test', () => {
-		let extGlobs = extensions.java;
+		let rule = rules.java;
 
-		assertPaired(extGlobs, 'Foo.java', 'FooTest.java');
-		assertPaired(extGlobs, 'FooTest.java', 'Foo.java');
+		assertPaired(rule, 'Foo.java', 'FooTest.java');
+		assertPaired(rule, 'FooTest.java', 'Foo.java');
 	});
 
 	test('groovy test', () => {
-		let extGlobs = extensions.groovy;
+		let rule = rules.groovy;
 
-		assertPaired(extGlobs, 'Foo.groovy', 'FooTest.groovy');
-		assertPaired(extGlobs, 'FooTest.groovy', 'Foo.groovy');
-		assertPaired(extGlobs, 'FooSpec.groovy', 'Foo.groovy');
+		assertPaired(rule, 'Foo.groovy', 'FooTest.groovy');
+		assertPaired(rule, 'FooTest.groovy', 'Foo.groovy');
+		assertPaired(rule, 'FooSpec.groovy', 'Foo.groovy');
 	});
 
 	test('kotlin test', () => {
-		let extGlobs = extensions.kt;
+		let rule = rules.kt;
 
-		assertPaired(extGlobs, 'Foo.kt', 'FooTest.kt');
-		assertPaired(extGlobs, 'FooTest.kt', 'Foo.kt');
+		assertPaired(rule, 'Foo.kt', 'FooTest.kt');
+		assertPaired(rule, 'FooTest.kt', 'Foo.kt');
 	});
 
 	test('javascript test', () => {
-		let extGlobs = extensions.js;
+		let rule = rules.js;
 
-        assertPaired(extGlobs, 'foo.vue', 'foo.spec.ts');
-        assertPaired(extGlobs, 'foo.jsx', 'foo.spec.ts');
-		assertPaired(extGlobs, 'foo.js', 'foo.spec.ts');
+        assertPaired(rule, 'foo.vue', 'foo.spec.ts');
+        assertPaired(rule, 'foo.jsx', 'foo.spec.ts');
+		assertPaired(rule, 'foo.js', 'foo.spec.ts');
 
-        assertPaired(extGlobs, 'foo.vue', 'foo.test.js');
-		assertPaired(extGlobs, 'foo.jsx', 'foo.test.js');
-		assertPaired(extGlobs, 'foo.js', 'foo.test.js');
+        assertPaired(rule, 'foo.vue', 'foo.test.js');
+		assertPaired(rule, 'foo.jsx', 'foo.test.js');
+		assertPaired(rule, 'foo.js', 'foo.test.js');
 
-		assertPaired(extGlobs, 'foo.test.js', 'foo.js');
-		assertPaired(extGlobs, 'foo.spec.js', 'foo.js');
+		assertPaired(rule, 'foo.test.js', 'foo.js');
+		assertPaired(rule, 'foo.spec.js', 'foo.js');
 	});
 
 	test('typescript test', () => {
-		let extGlobs = extensions.ts;
+		let rule = rules.ts;
 
-        assertPaired(extGlobs, 'foo.vue', 'foo.spec.ts');
-        assertPaired(extGlobs, 'foo.jsx', 'foo.spec.ts');
-		assertPaired(extGlobs, 'foo.ts', 'foo.spec.ts');
+        assertPaired(rule, 'foo.vue', 'foo.spec.ts');
+        assertPaired(rule, 'foo.jsx', 'foo.spec.ts');
+		assertPaired(rule, 'foo.ts', 'foo.spec.ts');
 
-        assertPaired(extGlobs, 'foo.vue', 'foo.test.ts');
-		assertPaired(extGlobs, 'foo.jsx', 'foo.test.ts');
-		assertPaired(extGlobs, 'foo.ts', 'foo.test.ts');
+        assertPaired(rule, 'foo.vue', 'foo.test.ts');
+		assertPaired(rule, 'foo.jsx', 'foo.test.ts');
+		assertPaired(rule, 'foo.ts', 'foo.test.ts');
 
-		assertPaired(extGlobs, 'foo.test.ts', 'foo.ts');
-		assertPaired(extGlobs, 'foo.spec.ts', 'foo.ts');
+		assertPaired(rule, 'foo.test.ts', 'foo.ts');
+		assertPaired(rule, 'foo.spec.ts', 'foo.ts');
 	});
 
     test('vue test', () => {
-		let extGlobs = extensions.vue;
+		let rule = rules.vue;
 
-        assertPaired(extGlobs, 'foo.test.ts', 'foo.vue');
-        assertPaired(extGlobs, 'foo.spec.ts', 'foo.vue');
+        assertPaired(rule, 'foo.test.ts', 'foo.vue');
+        assertPaired(rule, 'foo.spec.ts', 'foo.vue');
     });
 
     test('jsx test', () => {
-		let extGlobs = extensions.jsx;
+		let rule = rules.jsx;
 
-        assertPaired(extGlobs, 'foo.test.ts', 'foo.jsx');
-        assertPaired(extGlobs, 'foo.spec.ts', 'foo.jsx');
+        assertPaired(rule, 'foo.test.ts', 'foo.jsx');
+        assertPaired(rule, 'foo.spec.ts', 'foo.jsx');
     });
 
 	test('ruby test', () => {
-		let extGlobs = extensions.rb;
+		let rule = rules.rb;
 
-		assertPaired(extGlobs, 'foo.rb', 'foo_spec.rb');
-		assertPaired(extGlobs, 'foo.rb', 'foo_test.rb');
-		assertPaired(extGlobs, 'foo_spec.rb', 'foo.rb');
-		assertPaired(extGlobs, 'foo_test.rb', 'foo.rb');
+		assertPaired(rule, 'foo.rb', 'foo_spec.rb');
+		assertPaired(rule, 'foo.rb', 'foo_test.rb');
+		assertPaired(rule, 'foo_spec.rb', 'foo.rb');
+		assertPaired(rule, 'foo_test.rb', 'foo.rb');
 	});
 
 	test('go test', () => {
-		let extGlobs = extensions.go;
+		let rule = rules.go;
 
-		assertPaired(extGlobs, 'foo.go', 'foo_test.go');
-		assertPaired(extGlobs, 'foo_test.go', 'foo.go');
+		assertPaired(rule, 'foo.go', 'foo_test.go');
+		assertPaired(rule, 'foo_test.go', 'foo.go');
 	});
 
 	test('swift test', () => {
-		let extGlobs = extensions.swift;
+		let rule = rules.swift;
 
-		assertPaired(extGlobs, 'Foo.swift', 'FooTests.swift');
-		assertPaired(extGlobs, 'FooTests.swift', 'Foo.swift');
+		assertPaired(rule, 'Foo.swift', 'FooTests.swift');
+		assertPaired(rule, 'FooTests.swift', 'Foo.swift');
 	});
 
 	test('matlab test', () => {
-		let extGlobs = extensions.m;
+		let rule = rules.m;
 
-		assertPaired(extGlobs, 'Foo.m', 'FooTest.m');
-		assertPaired(extGlobs, 'FooTest.m', 'Foo.m');
+		assertPaired(rule, 'Foo.m', 'FooTest.m');
+		assertPaired(rule, 'FooTest.m', 'Foo.m');
 	});
 
 	test('r test', () => {
-		let extGlobs = extensions.r;
+		let rule = rules.r;
 
-		assertPaired(extGlobs, 'foo.r', 'test_foo.r');
-		assertPaired(extGlobs, 'test_foo.r', 'foo.r');
+		assertPaired(rule, 'foo.r', 'test_foo.r');
+		assertPaired(rule, 'test_foo.r', 'foo.r');
 	});
 
 });
