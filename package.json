@@ -3,15 +3,18 @@
 	"displayName": "TestPair",
 	"publisher": "absszero",
 	"description": "Pair your source/test files from test/source files.",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"engines": {
 		"vscode": "^1.60.0"
 	},
 	"categories": [
 		"Other"
 	],
-	"keywords" : [
-		"test", "testing", "file", "source"
+	"keywords": [
+		"test",
+		"testing",
+		"file",
+		"source"
 	],
 	"activationEvents": [
 		"onCommand:extension.test-pair"
