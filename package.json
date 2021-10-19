@@ -4,6 +4,7 @@
 	"publisher": "absszero",
 	"description": "Pair your source/test files from test/source files.",
 	"version": "1.0.0",
+	"repository": "https://github.com/absszero/vscode-test-pair",
 	"engines": {
 		"vscode": "^1.60.0"
 	},
