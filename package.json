@@ -31,8 +31,14 @@
 			{
 				"title": "TestPair",
 				"properties": {
-					"testPair.testFileExtensions": {
-						"description": "Specifies test file extensions",
+					"testPair.exclusion": {
+						"description": "the glob pattern to exclude pair files.",
+						"scope": "window",
+						"type": "string",
+						"default": "**/{node_modules,vendor}/"
+					},
+					"testPair.rules": {
+						"description": "Specifies pair rules",
 						"scope": "window",
 						"type": "array",
 						"items": {
@@ -52,7 +58,7 @@
 								},
 								"sourceExt": {
 									"type": "string",
-									"description": "the glob pattern for source file extensions. if ignore it, the default is current file extension."
+									"description": "the glob pattern for source file extensions. if ignore it, default is current file extension."
 								}
 							}
 						},
