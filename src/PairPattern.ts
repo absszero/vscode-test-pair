@@ -2,7 +2,7 @@ import { Rule } from './Rule';
 const minimatch = require("minimatch");
 const FILENAME_PLACEHOLDER = '@@';
 
-interface PairGlob {
+export interface PairPattern {
     glob: string,
     isTestFile: string
 }
@@ -13,7 +13,7 @@ interface PairGlob {
  * @param fc
  * @returns
  */
-export function getPairGlob(rule: Rule, fc: any): PairGlob {
+export function getPairPattern(rule: Rule, fc: any): PairPattern {
     const isTestFile = minimatch(fc.filename, rule.testGlob.replace(FILENAME_PLACEHOLDER, '*'));
     let glob = rule.testGlob.replace(FILENAME_PLACEHOLDER, fc.base);
     if (isTestFile) {

@@ -6,7 +6,7 @@ const minimatch = require("minimatch");
 // as well as import your extension to test it
 import * as vscode from 'vscode';
 import { filenameComponent, initRules } from '../../extension';
-import { getPairGlob } from "../../PairGlob";
+import { getPairPattern } from "../../PairPattern";
 import { Rule } from '../../Rule';
 
 let editor : vscode.TextEditor;
@@ -22,8 +22,8 @@ suite('Extension Test Suite', () => {
 
 	function assertPaired(rule: Rule, expection: string, filename: string) {
 		let fc = filenameComponent(filename);
-		let globPatten = getPairGlob(rule, fc);
-		assert.strictEqual(true, minimatch(expection, globPatten.glob));
+		let globPattern = getPairPattern(rule, fc);
+		assert.strictEqual(true, minimatch(expection, globPattern.glob));
 	}
 
 	test('php test', () => {

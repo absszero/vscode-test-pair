@@ -2,9 +2,8 @@ import * as vscode from 'vscode';
 import { basename } from 'path';
 import { Rule } from './Rule';
 import { FileComponent } from './FileComponent';
-import { getPairGlob } from './PairGlob';
-
-const MAX_RESULTS = 3;
+import { getPairPattern } from './PairPattern';
+import * as explorer from './FileExplorer';
 
 /**
  * init default rules
@@ -58,15 +57,27 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        const glob = getPairGlob(rule, fc);
-        if (!glob.glob) {
+        const pattern = getPairPattern(rule, fc);
+        if (!pattern.glob) {
             vscode.window.showWarningMessage('TestPair: Unable to find the pair glob pattern');
             return;
         }
 
-        let uris = await vscode.workspace.findFiles('**/' + glob, excludes, MAX_RESULTS);
+        let uris = await explorer.findFiles('**/' + pattern.glob);
         if (0 === uris.length) {
-            vscode.window.showWarningMessage('TestPair: Unable to find the pair file');
+            if (pattern.isTestFile) {
+                vscode.window.showWarningMessage('TestPair: Unable to find the pair file');
+                return;
+            }
+
+            vscode.window
+            .showInformationMessage(`TestPair: Unable to find the test file, Do you want to create it?`, "Yes", "No")
+            .then(answer => {
+                if (answer === "No") {
+                    return;
+                }
+                explorer.makeTestFile(editor.document.uri, pattern);
+            });
             return;
         }
 
