@@ -11,7 +11,7 @@ const TEST_DIRECTORY = '**/{test,tests}/';
  * @param pattern
  */
 export async function makeTestFile(sourceUri: vscode.Uri , pattern: PairPattern): Promise<void> {
-    const dirs = await testDirectories(sourceUri.path, pattern.spreaded);
+    const dirs = await testDirectories(sourceUri.path, pattern.testFilenames);
 
     // select testing dir location
     let dir : string|undefined = dirs[0];
@@ -24,7 +24,7 @@ export async function makeTestFile(sourceUri: vscode.Uri , pattern: PairPattern)
 
     // select testing filename
     let files = [];
-    for (const filename of pattern.spreaded) {
+    for (const filename of pattern.testFilenames) {
         files.push(dir + filename);
     }
 
