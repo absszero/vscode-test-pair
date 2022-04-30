@@ -4,7 +4,8 @@ const FILENAME_PLACEHOLDER = '@@';
 
 export interface PairPattern {
     glob: string,
-    isTestFile: string
+    isTestFile: string,
+    testFilenames: string[]
 }
 
 /**
@@ -16,9 +17,10 @@ export interface PairPattern {
 export function getPairPattern(rule: Rule, fc: any): PairPattern {
     const isTestFile = minimatch(fc.filename, rule.testGlob.replace(FILENAME_PLACEHOLDER, '*'));
     let glob = rule.testGlob.replace(FILENAME_PLACEHOLDER, fc.base);
+    let testFilenames : string[] = [];
     if (isTestFile) {
         if (!rule.sourceGlob) {
-            return {glob, isTestFile};
+            return {glob, isTestFile, testFilenames};
         }
         const filter = spreadGlobs(rule.sourceGlob.split(FILENAME_PLACEHOLDER));
         glob = fc.base;
@@ -27,9 +29,11 @@ export function getPairPattern(rule: Rule, fc: any): PairPattern {
         }
         let sourceExt = rule.sourceExt ?? rule.extension;
         glob += '.' + sourceExt;
+    } else {
+        testFilenames = spreadGlobs([glob]);
     }
 
-    return {glob, isTestFile};
+    return {glob, isTestFile, testFilenames};
 }
 
 
@@ -38,7 +42,7 @@ export function getPairPattern(rule: Rule, fc: any): PairPattern {
  * @param globs
  * @returns
  */
-function spreadGlobs(globs: Array<string>) : Array<string> {
+function spreadGlobs(globs: string[]) : string[] {
     let idx = 0;
     while(undefined !== globs[idx]) {
         const glob = globs[idx];

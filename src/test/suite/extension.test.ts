@@ -1,15 +1,12 @@
 import * as assert from 'assert';
-import { before } from 'mocha';
-const minimatch = require("minimatch");
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 import * as vscode from 'vscode';
-import { filenameComponent, initRules } from '../../extension';
+import { before } from 'mocha';
+import minimatch = require("minimatch");
+import { initRules } from '../../extension';
+import { filenameComponent } from '../../FileComponent';
 import { getPairPattern } from "../../PairPattern";
 import { Rule } from '../../Rule';
 
-let editor : vscode.TextEditor;
 suite('Extension Test Suite', () => {
 	let rules : any = {};
 	before(async () => {
