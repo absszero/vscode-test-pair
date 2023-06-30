@@ -79,10 +79,12 @@ suite('Extension Test Suite', () => {
         assertPaired(rule, 'foo.vue', 'foo.spec.ts');
         assertPaired(rule, 'foo.jsx', 'foo.spec.ts');
 		assertPaired(rule, 'foo.ts', 'foo.spec.ts');
+		assertPaired(rule, 'foo.tsx', 'foo.spec.ts');
 
         assertPaired(rule, 'foo.vue', 'foo.test.ts');
 		assertPaired(rule, 'foo.jsx', 'foo.test.ts');
 		assertPaired(rule, 'foo.ts', 'foo.test.ts');
+		assertPaired(rule, 'foo.tsx', 'foo.test.ts');
 
 		assertPaired(rule, 'foo.test.ts', 'foo.ts');
 		assertPaired(rule, 'foo.spec.ts', 'foo.ts');

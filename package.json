@@ -6,7 +6,7 @@
 	"version": "1.1.0",
 	"repository": "https://github.com/absszero/vscode-test-pair",
 	"engines": {
-		"vscode": "^1.60.0"
+		"vscode": "^1.76.0"
 	},
 	"categories": [
 		"Other"
@@ -18,7 +18,6 @@
 		"source"
 	],
 	"activationEvents": [
-		"onCommand:extension.test-pair"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -100,13 +99,13 @@
 								"extension": "js",
 								"testGlob": "@@{.spec,.test}.{ts,js}",
 								"sourceGlob": "@@{.spec,.test}",
-								"sourceExt": "{js,vue,jsx}"
+								"sourceExt": "{js,vue,jsx,tsx}"
 							},
 							{
 								"extension": "ts",
 								"testGlob": "@@{.spec,.test}.ts",
 								"sourceGlob": "@@{.spec,.test}",
-								"sourceExt": "{ts,vue,jsx}"
+								"sourceExt": "{ts,vue,jsx,tsx}"
 							},
 							{
 								"extension": "vue",
@@ -156,17 +155,17 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.60.0",
+		"@types/vscode": "^1.76.0",
 		"@types/glob": "^7.1.3",
-		"@types/mocha": "^8.2.2",
+		"@types/mocha": "^9.1.0",
 		"@types/node": "14.x",
 		"eslint": "^7.27.0",
-		"@typescript-eslint/eslint-plugin": "^4.26.0",
-		"@typescript-eslint/parser": "^4.26.0",
+		"@typescript-eslint/eslint-plugin": "^4.33.0",
+		"@typescript-eslint/parser": "^4.33.0",
 		"glob": "^7.1.7",
-		"mocha": "^8.4.0",
+		"mocha": "^9.1.2",
 		"typescript": "^4.3.2",
-		"vscode-test": "^1.5.2"
+		"vscode-test": "^1.6.1"
 	},
 	"dependencies": {
 		"minimatch": "^3.0.4"
