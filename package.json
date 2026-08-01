@@ -160,14 +160,14 @@
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@types/vscode": "^1.76.0",
 		"@types/mocha": "^10.0.10",
-		"@types/node": "20.x",
+		"@types/node": "^22.0.0",
 		"eslint": "^9.19.0",
 		"@typescript-eslint/eslint-plugin": "^8.22.0",
 		"@typescript-eslint/parser": "^8.22.0",
 		"glob": "^13.0.6",
 		"mocha": "^11.7.5",
 		"typescript": "5.5",
-		"@vscode/test-electron": "^3.1.0"
+		"@vscode/test-electron": "^2.3.9"
 	},
 	"dependencies": {
 		"minimatch": "^10.2.5"
