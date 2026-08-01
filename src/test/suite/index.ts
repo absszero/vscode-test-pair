@@ -1,38 +1,42 @@
 import * as path from 'path';
-import * as Mocha from 'mocha';
-import * as glob from 'glob';
+import Mocha from 'mocha';
+import { globSync } from 'glob';
 
 export function run(): Promise<void> {
-	// Create the mocha test
+	// Create the mocha test runner
 	const mocha = new Mocha({
 		ui: 'tdd',
-		color: true
+		color: true,
+		timeout: 20000
 	});
 
 	const testsRoot = path.resolve(__dirname, '..');
 
-	return new Promise((c, e) => {
-		glob('**/**.test.js', { cwd: testsRoot }, (err, files) => {
-			if (err) {
-				return e(err);
-			}
+	return new Promise((resolve, reject) => {
+		// Auto-discover and load test files matching *.test.js pattern
+		let files = globSync('**/**.test.js', { cwd: testsRoot });
 
-			// Add files to the test suite
-			files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)));
+		// Support filtering by TEST_FILE environment variable (for launch.json debug configs)
+		if (process.env.TEST_FILE) {
+			const testFile = process.env.TEST_FILE.replace(/\.ts$/, '.js')
+				.replace(/^.*src\/test\//, '')
+				.replace(/\\/g, '/');
+			files = files.filter(f => f.includes(testFile));
+		}
 
-			try {
-				// Run the mocha test
-				mocha.run(failures => {
-					if (failures > 0) {
-						e(new Error(`${failures} tests failed.`));
-					} else {
-						c();
-					}
-				});
-			} catch (err) {
-				console.error(err);
-				e(err);
-			}
-		});
+		files.forEach(file => mocha.addFile(path.resolve(testsRoot, file)));
+
+		try {
+			// Run the mocha tests
+			mocha.run(failures => {
+				if (failures > 0) {
+					reject(new Error(`${failures} tests failed.`));
+				} else {
+					resolve();
+				}
+			});
+		} catch (err) {
+			reject(err);
+		}
 	});
 }
