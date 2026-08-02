@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 import { before } from 'mocha';
-import minimatch = require("minimatch");
+import { minimatch } from 'minimatch';
 import { initRules } from '../../extension';
 import { filenameComponent } from '../../FileComponent';
 import { getPairPattern } from "../../PairPattern";

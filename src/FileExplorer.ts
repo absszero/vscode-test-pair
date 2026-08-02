@@ -1,4 +1,4 @@
-import path = require("path");
+import path from "path";
 import * as vscode from 'vscode';
 import { PairPattern } from "./PairPattern";
 

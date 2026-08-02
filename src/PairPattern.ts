@@ -1,11 +1,11 @@
 import { Rule } from './Rule';
-const minimatch = require("minimatch");
+import { minimatch } from 'minimatch';
 const FILENAME_PLACEHOLDER = '@@';
 
 export interface PairPattern {
-    glob: string,
-    isTestFile: string,
-    testFilenames: string[]
+    glob: string;
+    isTestFile: boolean;
+    testFilenames: string[];
 }
 
 /**
